@@ -4,7 +4,7 @@ import { SITE } from '../site';
 const path = Astro.url.pathname;
 const links = [
   { href: '/#work', label: 'Work', current: path.startsWith('/projects/') },
-  { href: '/writing/', label: 'Writing', current: path.startsWith('/writing/') || path.startsWith('/archive/') },
+  { href: '/#about', label: 'About', current: false },
   { href: '/resume/', label: 'Resume', current: path.startsWith('/resume/') },
 ];
 ---
@@ -37,10 +37,9 @@ const links = [
   }
 
   .wordmark {
-    font-family: var(--display);
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1.25rem;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     color: var(--ink);
     text-decoration: none;
   }

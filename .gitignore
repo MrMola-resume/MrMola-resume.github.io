@@ -15,12 +15,3 @@ npm-debug.log*
 
 # macOS
 .DS_Store
-
-# leftovers from the old Jekyll site
-_site/
-.jekyll-cache/
-chruby-*/
-
-# local Python env for scripts/gen-grain.py
-.venv/
-__pycache__/

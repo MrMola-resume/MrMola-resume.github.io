@@ -15,7 +15,7 @@ const { eyebrow, title, href, summary, meta } = Astro.props;
   <p class="eyebrow">{eyebrow}</p>
   <h3>{href ? <a href={href}>{title}</a> : title}</h3>
   <p class="summary">{summary}</p>
-  <ul class="dot-list mono">
+  <ul class="dot-list label">
     {meta.map((item) => <li>{item}</li>)}
   </ul>
 </article>
@@ -32,7 +32,7 @@ const { eyebrow, title, href, summary, meta } = Astro.props;
 
   .linked:hover {
     transform: translateY(-2px);
-    border-color: var(--grain-line);
+    border-color: var(--motif-strong);
   }
 
   h3 {

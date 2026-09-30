@@ -1,43 +1,24 @@
 ---
 import Base from './Base.astro';
 import Prose from '../components/Prose.astro';
-import { formatDate } from '../format';
 
 interface Props {
   frontmatter: {
     title: string;
     description: string;
-    kind: 'project' | 'writing' | 'archive';
-    /** Writing and archive posts. */
-    date?: string | Date;
-    /** Projects: the facts shown under the title, joined with `·`. */
+    /** The facts shown under the title, joined with `·`. */
     meta?: string[];
-    org?: string;
-    period?: string;
-    role?: string;
-    stack?: string[];
-    /** Projects whose write-up isn't finished yet. */
-    draft?: boolean;
+    tools?: string[];
+    /** The case study linked at the bottom of the page. */
+    next?: { href: string; title: string };
   };
 }
 
-const { title, description, kind, date, meta = [], stack = [], draft = false } = Astro.props.frontmatter;
-
-const year = date ? new Date(date).getUTCFullYear() : undefined;
-const back = {
-  project: { href: '/#work', label: 'Selected work' },
-  writing: { href: '/writing/', label: 'All writing' },
-  archive: { href: '/archive/', label: 'Earlier writing' },
-}[kind];
+const { title, description, meta = [], tools = [], next } = Astro.props.frontmatter;
 
 // Fail with a readable message instead of a crash further down.
-for (const [field, ok] of [['kind', back], ['title', title], ['description', description]] as const) {
-  if (!ok) {
-    throw new Error(
-      `${Astro.url.pathname}: front matter is missing \`${field}\`` +
-        (field === 'kind' ? ' (one of: project, writing, archive)' : ''),
-    );
-  }
+for (const [field, ok] of [['title', title], ['description', description]] as const) {
+  if (!ok) throw new Error(`${Astro.url.pathname}: front matter is missing \`${field}\``);
 }
 ---
 
@@ -46,30 +27,29 @@ for (const [field, ok] of [['kind', back], ['title', title], ['description', des
     <div class="column">
       <header class="article-head">
         <h1>{title}</h1>
-        {kind === 'project' && meta.length > 0 ? (
-          <ul class="dot-list meta mono">
+        {meta.length > 0 && (
+          <ul class="dot-list meta label">
             {meta.map((item) => <li>{item}</li>)}
           </ul>
-        ) : (
-          date && <p class="meta mono"><time datetime={new Date(date).toISOString().slice(0, 10)}>{formatDate(date)}</time></p>
         )}
-        {stack.length > 0 && (
-          <p class="stack mono">Stack · {stack.join(', ')}</p>
+        {tools.length > 0 && (
+          <p class="tools label">Tools · {tools.join(', ')}</p>
         )}
       </header>
-
-      {kind === 'archive' && (
-        <p class="callout">Archived, written during junior and senior year of undergrad.</p>
-      )}
-      {draft && (
-        <p class="callout">Under construction — this piece isn't finished yet.</p>
-      )}
 
       <Prose>
         <slot />
       </Prose>
 
-      <p class="back small"><a href={back.href}>← {back.label}</a></p>
+      <nav class="pager small" aria-label="Case studies">
+        <a href="/#work">← Selected work</a>
+        {next && (
+          <a class="next" href={next.href}>
+            <span class="label">Next case study</span>
+            <span class="next-title">{next.title} →</span>
+          </a>
+        )}
+      </nav>
     </div>
   </article>
 </Base>
@@ -79,7 +59,6 @@ for (const [field, ok] of [['kind', back], ['title', title], ['description', des
     padding-top: clamp(var(--s-6), 5vw, var(--s-8));
   }
 
-  /* Width set once here, at body size: `ch` in the smaller callout text would be narrower. */
   .column {
     max-width: var(--measure);
   }
@@ -92,17 +71,77 @@ for (const [field, ok] of [['kind', back], ['title', title], ['description', des
     margin-top: var(--s-4);
   }
 
-  .stack {
+  .tools {
     margin-top: var(--s-1);
   }
 
-  .callout {
-    margin-bottom: var(--s-6);
-  }
-
-  .back {
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--s-4) var(--s-6);
     margin-top: var(--s-8);
     padding-top: var(--s-5);
     border-top: 1px solid var(--rule);
+  }
+
+  .next {
+    display: grid;
+    gap: var(--s-1);
+    text-align: right;
+    margin-left: auto;
+    text-decoration: none;
+  }
+
+  .next-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .next:hover .next-title {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Key figures at the top of an Outcome section (raw HTML in the Markdown). */
+  .article :global(.figures) {
+    display: grid;
+    gap: var(--s-4);
+    margin: var(--s-5) 0 var(--s-6);
+    padding: var(--s-5) 0;
+    border-block: 1px solid var(--rule);
+  }
+
+  .article :global(.figures div) {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end; /* reversed, so this packs the figures to the top */
+    gap: var(--s-1);
+  }
+
+  .article :global(.figures dt) {
+    font-size: var(--fs-small);
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .article :global(.figures dd) {
+    margin: 0;
+    font-size: clamp(1.875rem, 4vw, 2.375rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 600px) {
+    .article :global(.figures) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--s-5);
+    }
   }
 </style>

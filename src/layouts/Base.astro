@@ -2,14 +2,15 @@
 import Head from '../components/Head.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import GrainField from '../components/GrainField.astro';
+import Motif from '../components/Motif.astro';
+import ThemePicker from '../components/ThemePicker.astro';
 
 interface Props {
   title?: string;
   description: string;
   type?: 'website' | 'article';
   noindex?: boolean;
-  /** Every page gets the grain band above its h1, except one that renders the hero field itself. */
+  /** Every page gets the motif band above its h1, except one that renders the hero motif itself. */
   band?: boolean;
 }
 
@@ -25,10 +26,11 @@ const { band = true, ...head } = Astro.props;
     <a href="#main" class="skip">Skip to content</a>
     <Header />
     <main id="main" tabindex="-1">
-      {band && <GrainField variant="band" />}
+      {band && <Motif variant="band" />}
       <slot />
     </main>
     <Footer />
+    <ThemePicker />
   </body>
 </html>
 

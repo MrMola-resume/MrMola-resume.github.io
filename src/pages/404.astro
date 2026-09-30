@@ -4,13 +4,16 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Page not found"
-  description="This page doesn't exist on dawsonren.github.io. It may have moved when the site was rebuilt in 2026; the homepage links to everything that's here."
+  description="This page doesn't exist on Mola Faleti's site. The homepage links to everything that's here."
   noindex
 >
   <div class="wrap page">
-    <h1>Page not found</h1>
-    <p>This page doesn't exist — it may have moved when the site was rebuilt.</p>
-    <p><a class="arrow-link" href="/">Go to the homepage</a></p>
+    <h1>That page doesn’t exist</h1>
+    <p>The link may be mistyped, or the page may have moved.</p>
+    <p class="links">
+      <a class="arrow-link" href="/">Go to the homepage</a>
+      <a class="arrow-link" href="/resume/">See the resume</a>
+    </p>
   </div>
 </Base>
 
@@ -21,5 +24,11 @@ import Base from '../layouts/Base.astro';
 
   p {
     margin-top: var(--s-4);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4) var(--s-5);
   }
 </style>

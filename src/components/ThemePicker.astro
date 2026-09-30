@@ -1,0 +1,197 @@
+---
+/**
+ * TEMPORARY: lets Mola compare palettes and motifs. Hidden unless the site was opened with
+ * `?themes` in this browser (see the script in Head.astro). Once he picks one, delete this
+ * component, its line in Base.astro, the unused palette blocks in global.css, the unused
+ * motif, and the picker bits of the Head.astro script.
+ */
+const palettes = [
+  { value: 'navy', label: 'Navy', swatch: '#1F3A5F' },
+  { value: 'charcoal', label: 'Charcoal', swatch: '#00A1DE' },
+  { value: 'earth', label: 'Earth', swatch: '#9E4426' },
+];
+const motifs = [
+  { value: 'flow', label: 'Flow' },
+  { value: 'contours', label: 'Contours' },
+];
+---
+
+<aside class="picker" aria-label="Theme picker (preview only)">
+  <details open>
+  <summary class="label">Preview themes</summary>
+  <fieldset>
+    <legend>Palette</legend>
+    <div class="options">
+      {palettes.map((p, i) => (
+        <label>
+          <input type="radio" name="palette" value={p.value} checked={i === 0} />
+          <span><i style={`background:${p.swatch}`} aria-hidden="true"></i>{p.label}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Motif</legend>
+    <div class="options">
+      {motifs.map((m, i) => (
+        <label>
+          <input type="radio" name="motif" value={m.value} checked={i === 0} />
+          <span>{m.label}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+  <button type="button" class="hide">Hide picker</button>
+  </details>
+</aside>
+
+<script>
+  const root = document.documentElement;
+  const picker = document.querySelector<HTMLElement>('.picker');
+
+  const store = {
+    get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} },
+    del: (k: string) => { try { localStorage.removeItem(k); } catch {} },
+  };
+
+  if (picker) {
+    // The first option in each group is the default, which is shown by having no attribute.
+    for (const [name, key] of [['palette', 'mf-palette'], ['motif', 'mf-motif']] as const) {
+      const inputs = picker.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`);
+      const current = root.getAttribute(`data-${name}`);
+      for (const input of inputs) {
+        if (current) input.checked = input.value === current;
+        input.addEventListener('change', () => {
+          if (input === inputs[0]) root.removeAttribute(`data-${name}`);
+          else root.setAttribute(`data-${name}`, input.value);
+          store.set(key, input.value);
+        });
+      }
+    }
+
+    // Remember a collapsed picker from page to page.
+    const details = picker.querySelector('details');
+    if (details) {
+      if (store.get('mf-picker-closed') === '1') details.open = false;
+      details.addEventListener('toggle', () => {
+        if (details.open) store.del('mf-picker-closed');
+        else store.set('mf-picker-closed', '1');
+      });
+    }
+
+    picker.querySelector('.hide')?.addEventListener('click', () => {
+      for (const k of ['mf-picker', 'mf-palette', 'mf-motif', 'mf-picker-closed']) store.del(k);
+      for (const a of ['data-picker', 'data-palette', 'data-motif']) root.removeAttribute(a);
+      const url = new URL(location.href);
+      url.searchParams.delete('themes');
+      history.replaceState(null, '', url);
+    });
+  }
+</script>
+
+<style>
+  .picker {
+    display: none;
+    position: fixed;
+    right: var(--s-4);
+    bottom: var(--s-4);
+    z-index: 20;
+    width: min(240px, calc(100vw - 2 * var(--s-4)));
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgb(0 0 0 / .12);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+
+  :global(:root[data-picker]) .picker {
+    display: block;
+  }
+
+  summary {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  summary::marker {
+    color: var(--muted);
+  }
+
+  details[open] summary {
+    margin-bottom: var(--s-3);
+  }
+
+  fieldset {
+    border: 0;
+    margin: 0 0 var(--s-3);
+    padding: 0;
+  }
+
+  legend {
+    padding: 0;
+    margin-bottom: var(--s-1);
+    font-weight: 600;
+  }
+
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  label span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  label span i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  input:checked + span {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  input:focus-visible + span {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .hide {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: .2em;
+    cursor: pointer;
+  }
+
+  .hide:hover {
+    color: var(--accent);
+  }
+
+  @media print {
+    .picker { display: none !important; }
+  }
+</style>

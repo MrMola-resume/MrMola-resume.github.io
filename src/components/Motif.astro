@@ -1,0 +1,45 @@
+---
+/**
+ * The background motif: `hero` on the homepage, `band` on every other page. Both motifs are
+ * rendered; CSS shows the one named by <html data-motif> (flow by default). The hero variant
+ * renders its slot above the drawing, wrapped in `.motif-content`.
+ */
+import { flow, contours, viewBox } from '../motifs';
+
+interface Props {
+  variant?: 'hero' | 'band';
+}
+
+const { variant = 'band' } = Astro.props;
+const { rect } = flow;
+---
+
+<div class={`motif motif--${variant}`}>
+  <svg class="motif-flow" viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    {flow.edges.map((e) => <path class="edge" d={e.path} pathLength="1" style={`--d:${e.d}`} />)}
+    {flow.edges.map((e) => <path class="arrow" d={e.arrow} style={`--d:${e.d}`} />)}
+    {flow.nodes.map((n) =>
+      n.path ? (
+        <path class:list={['node', { key: n.key }]} d={n.path} style={`--d:${n.d}`} />
+      ) : (
+        <rect
+          class:list={['node', { key: n.key }]}
+          x={n.x - rect.w / 2}
+          y={n.y - rect.h / 2}
+          width={rect.w}
+          height={rect.h}
+          rx={rect.r}
+          style={`--d:${n.d}`}
+        />
+      ),
+    )}
+  </svg>
+  <svg class="motif-contours" viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    {contours.map((c) => <path class:list={{ index: c.index }} d={c.d} style={`--d:${c.level}`} />)}
+  </svg>
+  {Astro.slots.has('default') && (
+    <div class="motif-content">
+      <slot />
+    </div>
+  )}
+</div>

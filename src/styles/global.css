@@ -1,26 +1,27 @@
 /* ------------------------------------------------------------------
    Tokens
+   Navy is the default palette. The other two override the colour tokens below; they're only
+   reachable through the theme picker (?themes) until one is chosen.
    ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
 
-  /* Cool green-tinted ground on purpose: a warm neutral under a cool accent reads as accidental. */
-  --bg:          #F5F7F4;  /* page ground */
+  /* Navy: warm paper under a deep navy accent. */
+  --bg:          #F7F5F0;  /* page ground */
   --surface:     #FFFFFF;  /* cards, resume panel */
-  --ink:         #141A13;  /* body + headlines — 16.4:1 on bg */
-  --muted:       #5A6357;  /* secondary text — 5.8:1 on bg (AA) */
-  --rule:        #DCE3D8;  /* hairlines, card borders — never text */
-  --accent:      #1E4D34;  /* forest — links, CTA fill — 9.0:1 on bg; white on it 9.7:1 */
-  --accent-deep: #17402B;  /* hover/active — 10.8:1 on bg */
+  --ink:         #151922;  /* body + headlines */
+  --muted:       #595F6B;  /* secondary text (AA on bg and surface) */
+  --rule:        #E2DED5;  /* hairlines, card borders — never text */
+  --accent:      #1F3A5F;  /* links, CTA fill */
+  --accent-deep: #152A47;  /* hover/active */
+  --selection:   #D9E1EC;
 
-  /* Grain motif only. */
-  --grain-line: rgba(30, 77, 52, .42);   /* boundary stroke      */
-  --grain-lit:  rgba(30, 77, 52, .13);   /* hovered / tapped cell */
-  --grain-soft: rgba(30, 77, 52, .055);  /* neighbour spread      */
+  /* Motif only. */
+  --motif-line:   rgba(31, 58, 95, .38);
+  --motif-fill:   rgba(31, 58, 95, .05);
+  --motif-strong: rgba(31, 58, 95, .62);
 
-  --display: "Newsreader", Georgia, "Times New Roman", serif;
-  --body:    "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --fs-display: clamp(2.25rem, 5.5vw, 3.5rem);
   --fs-h1:      clamp(1.875rem, 4vw, 2.5rem);
@@ -47,6 +48,37 @@
   --radius: 4px;
 }
 
+/* Charcoal: cool grey with CTA blue. #00A1DE is too light for text (2.9:1), so links and
+   buttons use a deeper blue from the same family and the bright blue lives in the motif. */
+:root[data-palette='charcoal'] {
+  --bg:          #F4F5F6;
+  --ink:         #16181B;
+  --muted:       #5A5F66;
+  --rule:        #DDE0E4;
+  --accent:      #00658F;
+  --accent-deep: #004F70;
+  --selection:   #CDEBF7;
+
+  --motif-line:   rgba(0, 161, 222, .5);
+  --motif-fill:   rgba(0, 161, 222, .06);
+  --motif-strong: rgba(0, 161, 222, .9);
+}
+
+/* Earth: cream with terracotta. */
+:root[data-palette='earth'] {
+  --bg:          #F8F3EC;
+  --ink:         #1F1A16;
+  --muted:       #685D53;
+  --rule:        #E7DDD0;
+  --accent:      #9E4426;
+  --accent-deep: #7F341C;
+  --selection:   #F1D9CC;
+
+  --motif-line:   rgba(158, 68, 38, .36);
+  --motif-fill:   rgba(158, 68, 38, .05);
+  --motif-strong: rgba(158, 68, 38, .6);
+}
+
 /* ------------------------------------------------------------------
    Base
    ------------------------------------------------------------------ */
@@ -66,7 +98,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--body);
+  font-family: var(--font);
   font-size: var(--fs-body);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -78,10 +110,8 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--display);
   font-weight: 500;
-  font-optical-sizing: auto;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin: 0;
   text-wrap: balance;
@@ -89,7 +119,7 @@ h4 {
 
 h1 { font-size: var(--fs-h1); line-height: 1.15; }
 h2 { font-size: var(--fs-h2); line-height: 1.25; }
-h3 { font-size: var(--fs-h3); line-height: 1.35; }
+h3 { font-size: var(--fs-h3); line-height: 1.35; font-weight: 600; letter-spacing: -0.01em; }
 
 p,
 ul,
@@ -122,7 +152,7 @@ a:hover {
 }
 
 ::selection {
-  background: #D6E4DA;
+  background: var(--selection);
   color: var(--ink);
 }
 
@@ -173,14 +203,14 @@ a:hover {
   color: var(--muted);
 }
 
-/* The mono role: eyebrows, card metadata, captions, and rows of figures. */
-.mono,
+/* The label role: eyebrows, card tags, and meta lines. Manrope has no true small caps, so
+   these are small, letterspaced capitals — close to what small caps would give. */
+.label,
 .eyebrow {
-  font-family: var(--mono);
-  font-size: .72rem;
-  font-weight: 400;
+  font-size: .75rem;
+  font-weight: 600;
   line-height: 1.6;
-  letter-spacing: .14em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -194,7 +224,7 @@ a:hover {
   background: var(--accent);
   color: #FFFFFF;
   border-radius: var(--radius);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
   line-height: 1.4;
   text-decoration: none;
@@ -207,23 +237,12 @@ a:hover {
 }
 
 .arrow-link {
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .arrow-link::after {
   content: ' →';
-}
-
-.callout {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius);
-  padding: var(--s-4) var(--s-5);
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  color: var(--muted);
 }
 
 .dot-list {
@@ -242,50 +261,83 @@ a:hover {
 }
 
 /* ------------------------------------------------------------------
-   Grain motif — a Voronoi field of polycrystalline grain boundaries.
-   Geometry and the neighbour rules are generated by scripts/gen-grain.py.
+   Motif — see src/motifs.ts for the geometry. Both motifs are in every page; the
+   picker's data-motif attribute decides which one shows. Flow is the default.
    ------------------------------------------------------------------ */
-.grain { position: relative; overflow: hidden; }
-/* Overscan by 1px so the stroked outer edge of the field (the clip box) never shows. */
-.grain svg {
+.motif { position: relative; overflow: hidden; }
+.motif svg {
   position: absolute;
-  inset: -1px;
+  inset: 0;
   display: block;
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
+  width: 100%;
+  height: 100%;
 }
 
-/* resting state — FACET: fixed per-cell fill, no motion */
-.grain path {
-  fill: rgba(30, 77, 52, var(--o));
-  stroke: var(--grain-line);
+.motif svg.motif-contours { display: none; }
+:root[data-motif='contours'] .motif svg.motif-flow { display: none; }
+:root[data-motif='contours'] .motif svg.motif-contours { display: block; }
+
+/* Flow: process nodes and orthogonal connectors. */
+.motif-flow .node {
+  fill: var(--motif-fill);
+  stroke: var(--motif-line);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.motif-flow .node.key { stroke: var(--motif-strong); }
+.motif-flow .edge {
+  fill: none;
+  stroke: var(--motif-line);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.motif-flow .arrow { fill: var(--motif-line); }
+
+/* Contours: topographic lines; every fifth is an index contour, drawn heavier. */
+.motif-contours path {
+  fill: none;
+  stroke: var(--motif-line);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
-  touch-action: manipulation;
-  transition: fill 620ms cubic-bezier(.4, 0, .2, 1);
 }
-
-/* tap — every device, no transition so it feels instant */
-.grain path:active { fill: var(--grain-lit); transition: none; }
-
-/* hover — ANNEAL: pointer devices only, so phones never get a stuck hover */
-@media (hover: hover) {
-  .grain path:hover { fill: var(--grain-lit); transition-duration: 130ms; }
-}
-
-/* the neighbour spread lives in generated/anneal.css, also inside @media (hover:hover) */
+.motif-contours path.index { stroke: var(--motif-strong); stroke-width: 1.4; }
 
 /* min-height, not height: the field sits behind the hero content and grows when it's taller. */
-.grain--hero { min-height: clamp(320px, 42vw, 460px); border-bottom: 1px solid var(--rule); }
-.grain--band { height: clamp(110px, 14vw, 150px); border-bottom: 1px solid var(--rule); }
+.motif--hero { min-height: clamp(320px, 42vw, 460px); border-bottom: 1px solid var(--rule); }
+.motif--band { height: clamp(110px, 14vw, 150px); border-bottom: 1px solid var(--rule); }
+.motif--hero .motif-content { position: relative; }
 
-/* hero text sits above the field and must not eat the pointer */
-.grain--hero .grain-content { position: relative; pointer-events: none; }
-.grain--hero .grain-content a { pointer-events: auto; }
+/* Intro: plays once per browser session, on the first page viewed. The head script sets
+   data-intro; without JavaScript, or with reduced motion, the motif is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-intro] .motif-flow .edge {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 700ms cubic-bezier(.4, 0, .2, 1) forwards;
+    animation-delay: calc(var(--d) * 90ms + 150ms);
+  }
 
-@media (prefers-reduced-motion: reduce) {
-  .grain path { transition: none; }
+  :root[data-intro] .motif-flow :is(.node, .arrow) {
+    opacity: 0;
+    animation: fade 450ms ease-out forwards;
+    animation-delay: calc(var(--d) * 90ms);
+  }
+
+  :root[data-intro] .motif-flow .arrow {
+    animation-delay: calc(var(--d) * 90ms + 700ms);
+  }
+
+  :root[data-intro] .motif-contours path {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: rise 900ms cubic-bezier(.2, 0, .2, 1) forwards;
+    animation-delay: calc(var(--d) * 70ms);
+  }
 }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { to { opacity: 1; } }
+@keyframes rise { to { opacity: 1; transform: none; } }
 
 /* ------------------------------------------------------------------
    Motion

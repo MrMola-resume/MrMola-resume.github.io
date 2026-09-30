@@ -1,7 +1,5 @@
 ---
 import '../styles/global.css';
-// Generated neighbour rules for the grain field; must load after global.css.
-import '../generated/anneal.css';
 import { SITE } from '../site';
 
 interface Props {
@@ -14,21 +12,22 @@ interface Props {
 
 const { title, description, type = 'website', noindex = false } = Astro.props;
 
-const fullTitle = title ? `${title} — ${SITE.name}` : SITE.name;
+const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
 
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: SITE.name,
+  name: SITE.fullName,
+  alternateName: SITE.name,
   url: new URL('/', Astro.site).href,
   email: `mailto:${SITE.email}`,
-  sameAs: [SITE.linkedin, SITE.github],
+  sameAs: [SITE.linkedin],
   jobTitle: SITE.jobTitle,
   alumniOf: {
     '@type': 'CollegeOrUniversity',
-    name: 'Northwestern University',
+    name: 'University of Illinois Urbana-Champaign',
   },
   address: {
     '@type': 'PostalAddress',
@@ -57,15 +56,44 @@ const person = {
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Dawson Ren — I build tools that help organizations make better decisions." />
+<meta property="og:image:alt" content="Mola Faleti — I build systems that help organizations work better." />
 <meta name="twitter:card" content="summary_large_image" />
+
+<!--
+  Runs before first paint, so a chosen theme never flashes the default.
+  - `?themes` turns on the theme picker (remembered in this browser); only then are a saved
+    palette and motif applied. Everyone else sees the defaults: navy + flow.
+  - data-intro marks the first page of a browser session, which plays the motif's intro.
+-->
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var PALETTES = ['navy', 'charcoal', 'earth'];
+    var MOTIFS = ['flow', 'contours'];
+    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    if (new URLSearchParams(location.search).has('themes')) set('mf-picker', '1');
+    if (get('mf-picker') === '1') {
+      root.setAttribute('data-picker', '');
+      var p = get('mf-palette');
+      var m = get('mf-motif');
+      if (PALETTES.indexOf(p) > 0) root.setAttribute('data-palette', p);
+      if (MOTIFS.indexOf(m) > 0) root.setAttribute('data-motif', m);
+    }
+    try {
+      if (!sessionStorage.getItem('mf-intro')) {
+        root.setAttribute('data-intro', '');
+        sessionStorage.setItem('mf-intro', '1');
+      }
+    } catch (e) {}
+  })();
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- css2 splits faces by unicode-range, so browsers only download the latin files. -->
 <link
   rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
 />
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
