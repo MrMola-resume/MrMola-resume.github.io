@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatDate } from '../../format';
+
+// Undated entries are unfinished; they show "Under construction" where the date would be.
+const posts: { href: string; title: string; date?: string; summary: string }[] = [
+  {
+    href: '/writing/manager-and-rubber-duck/',
+    title: 'The Manager and the Rubber Duck',
+    date: '2023-11-02',
+    summary:
+      'On the difference between explaining something correctly and explaining it both correctly and convincingly.',
+  },
+  {
+    href: '/writing/influences/',
+    title: 'Influences',
+    summary: 'People whose work shaped how I think about models and decisions, and what I took from each.',
+  },
+];
+---
+
+<Base
+  title="Writing"
+  description="Writing by Dawson Ren on explaining technical work, making decisions with models, and what happens when a method meets the person who has to act on it."
+>
+  <div class="wrap page">
+    <h1>Writing</h1>
+    <ul class="posts">
+      {posts.map((post) => (
+        <li>
+          <h2><a href={post.href}>{post.title}</a></h2>
+          <p class="mono">
+            {post.date ? <time datetime={post.date}>{formatDate(post.date)}</time> : 'Under construction'}
+          </p>
+          <p class="summary">{post.summary}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="small"><a class="arrow-link" href="/archive/">Earlier writing, from my student years</a></p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-6);
+    max-width: var(--measure);
+  }
+
+  .posts li {
+    padding-block: var(--s-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  .posts li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 2.4vw, 1.375rem);
+  }
+
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+
+  h2 a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .posts .mono {
+    margin-top: var(--s-1);
+  }
+
+  .summary {
+    margin-top: var(--s-3);
+  }
+
+  .posts + p {
+    margin-top: var(--s-6);
+  }
+</style>

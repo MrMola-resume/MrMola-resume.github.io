@@ -1,0 +1,42 @@
+---
+import { SITE } from '../site';
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <ul class="dot-list small">
+      <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      <li><a href={SITE.linkedin}>LinkedIn</a></li>
+      <li><a href={SITE.github}>GitHub</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--section);
+  }
+
+  .site-footer .wrap > ul {
+    border-top: 1px solid var(--rule);
+    padding-block: var(--s-6) var(--s-7);
+    color: var(--muted);
+  }
+
+  /* A page that ends in a full-bleed band (the homepage) already has its own edge. */
+  :global(main:has(> .full-bleed:last-child)) + .site-footer {
+    margin-top: 0;
+  }
+
+  :global(main:has(> .full-bleed:last-child)) + .site-footer .wrap > ul {
+    border-top: 0;
+  }
+
+  a {
+    color: var(--muted);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+</style>

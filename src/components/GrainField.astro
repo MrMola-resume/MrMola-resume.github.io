@@ -1,0 +1,25 @@
+---
+/**
+ * The grain field (see scripts/gen-grain.py). Use at most once per page: the cell ids are
+ * fixed, so a second instance would duplicate them and the :has() rules would fire on both.
+ * The hero variant renders its slot above the field, wrapped in `.grain-content`.
+ */
+import field from '../generated/grain.json';
+
+interface Props {
+  variant?: 'hero' | 'band';
+}
+
+const { variant = 'band' } = Astro.props;
+---
+
+<div class={`grain grain--${variant}`}>
+  <svg viewBox={field.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    {field.cells.map((c) => <path id={c.id} d={c.d} style={`--o:${c.o}`} />)}
+  </svg>
+  {Astro.slots.has('default') && (
+    <div class="grain-content">
+      <slot />
+    </div>
+  )}
+</div>

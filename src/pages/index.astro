@@ -1,0 +1,346 @@
+---
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import GrainField from '../components/GrainField.astro';
+import { SITE } from '../site';
+import { formatDate } from '../format';
+
+// Drop a square 800×800 JPEG at public/img/headshot.jpg and rebuild; until then a
+// placeholder box of the same size keeps the layout intact.
+const hasHeadshot = existsSync(path.join(process.cwd(), 'public/img/headshot.jpg'));
+
+const featured = {
+  href: '/writing/manager-and-rubber-duck/',
+  title: 'The Manager and the Rubber Duck',
+  date: '2023-11-02',
+  standfirst:
+    'On the difference between explaining something correctly and explaining it both correctly and convincingly.',
+};
+---
+
+<Base band={false} description="Dawson Ren builds tools that help organizations make better decisions — applied AI/ML, statistics, and production software. Based in Chicago.">
+  <GrainField variant="hero">
+    <section class="wrap hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <h1 id="hero-title">I build tools that help organizations make better decisions.</h1>
+        <p class="lede">
+          I'm Dawson Ren. I just finished a master's in Industrial Engineering and Management
+          Sciences at Northwestern, and I'm looking for data scientist, forward deployed engineer, technical product manager, or any other roles that are close to the customer and focused on data-driven decision-making.
+        </p>
+        <div class="actions">
+          <a class="btn" href="#work">See my work</a>
+          <a class="arrow-link" href="/resume/">Resume</a>
+          <a class="arrow-link" href={SITE.linkedin}>LinkedIn</a>
+        </div>
+        <p class="mono">Chicago, IL · Applied AI/ML · Operations · Product</p>
+      </div>
+      <div class="hero-photo">
+        {hasHeadshot ? (
+          <img class="headshot" src="/img/headshot.jpg" alt="Dawson Ren" width="800" height="800" loading="eager" fetchpriority="high" />
+        ) : (
+          <div class="headshot placeholder" role="img" aria-label="Dawson Ren">
+            <span aria-hidden="true">DR</span>
+          </div>
+        )}
+      </div>
+    </section>
+  </GrainField>
+
+  <section class="wrap section" id="work" aria-labelledby="work-title">
+    <h2 id="work-title">Selected work</h2>
+    <div class="cards">
+      <ProjectCard
+        eyebrow="Reinsurance Group of America · 2026"
+        title="A fairness testing platform for AI models in life insurance"
+        href="/projects/rga-fairness-platform/"
+        summary="Sole engineer on a tool that tests predictive and AI models for discrimination. Idea to production in ten weeks, now rolling out to a 70-person global data science organization."
+        meta={['Python', 'React', 'PySpark', 'Databricks']}
+      />
+      <ProjectCard
+        eyebrow="Northwestern University · 2025–2026"
+        title="Local ALE: stable explanations for black-box models"
+        href="/projects/local-ale/"
+        summary="A local feature attribution method that reduces the variance of individual explanations by up to 5x compared to SHAP when variables are highly correlated."
+        meta={['Research', 'Python', 'Interpretable ML']}
+      />
+      <ProjectCard
+        eyebrow="Northwestern University · 2024–2025"
+        title="Learning optimal free shipping thresholds"
+        href="/projects/free-shipping/"
+        summary="Amazon's free shipping threshold incentives customers to order up to the threshold, which biases the data you'd use to set the threshold. We develop an algorithm that corrects for this."
+        meta={['Research', 'Revenue Management', 'Online Learning']}
+      />
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="also-title">
+    <h2 id="also-title">Other Work</h2>
+    <ul class="also">
+      <li>
+        <h3>Oil Severity Diagnostics at Caterpillar</h3>
+        <p class="muted">
+          Built and validated a multiclass XGBoost classifier on 3M+ oil samples, improving
+          absolute F1 by 15 points over the rules-based system used at 70+ <a href="https://www.cat.com/en_US/support/maintenance/sos-services.html" target="_blank" rel="noopener noreferrer">fluid analysis labs
+          worldwide</a>.
+        </p>
+      </li>
+      <li>
+        <h3>GPU-accelerated molecular dynamics simulation</h3>
+        <p class="muted">
+          Learned high-performance GPU simulation from zero to model silicon grain boundaries
+          for next-generation thermoelectric materials, supported by the <a href="https://www.mccormick.northwestern.edu/predictive-science-engineering-design/" target="_blank" rel="noopener noreferrer">Predictive Sciences and Engineering Design Graduate Program</a>.
+        </p>
+      </li>
+      <li>
+        <h3>Teaching</h3>
+        <p class="muted">
+          Designed and taught eight ML lab sessions for Northwestern's MS in Machine Learning and
+          Data Science, a statistics bootcamp for the incoming IEMS PhD cohort, and educational
+          tools for Kellogg's MBA <a href="https://queueing.vercel.app" target="_blank" rel="noopener noreferrer">Operations</a> <a href="https://qr-backorder.vercel.app" target="_blank" rel="noopener noreferrer">Management</a> course.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="wrap section" aria-labelledby="writing-title">
+    <h2 id="writing-title">Writing</h2>
+    <article class="featured">
+      <h3><a href={featured.href}>{featured.title}</a></h3>
+      <p class="mono"><time datetime={featured.date}>{formatDate(featured.date)}</time></p>
+      <p class="standfirst">{featured.standfirst}</p>
+    </article>
+    <p class="small"><a class="arrow-link" href="/archive/">Earlier writing, from my student years</a></p>
+  </section>
+
+  <section class="about full-bleed" aria-labelledby="about-title">
+    <div class="wrap">
+      <figure>
+        <picture>
+          <source media="(max-width: 700px)" srcset="/img/valley-of-fire-1000.jpg" />
+          <img
+            src="/img/valley-of-fire.jpg"
+            alt="Red sandstone formations at Valley of Fire State Park, Nevada."
+            width="2000"
+            height="850"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <figcaption class="mono">Valley of Fire State Park, Nevada.</figcaption>
+      </figure>
+      <div class="about-text">
+        <h2 id="about-title">About</h2>
+        <p>
+          Born in New Jersey, grew up in St. Louis, transplant to Chicago. I've recently found myself returning to the intersection of software and decision-making, which is what made me excited about studying Industrial Engineering.
+        </p>
+        <p>
+          Outside of work I enjoy running by Lake Michigan, playing guitar, and cooking for my friends. Feel free to send me an email! Also open to grabbing coffee for those in the Chicagoland area.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero ------------------------------------------------------------ */
+  .hero {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: clamp(var(--s-7), 7vw, var(--s-9));
+  }
+
+  .hero h1 {
+    font-size: var(--fs-display);
+    line-height: 1.06;
+    font-weight: 500;
+    max-width: 16ch;
+  }
+
+  .lede {
+    margin-top: var(--s-5);
+    max-width: 58ch;
+    font-size: 1.125rem;
+  }
+
+  /* The field fades in from behind the text to full strength around the photo, so the copy
+     sits on near-plain ground. Stacked (mobile): strong behind the photo at the top, fading
+     out by the headline. The stops track the layout below: the photo is 200px under ~48px
+     of padding. */
+  :global(.grain--hero svg) {
+    --fade: linear-gradient(to bottom, #000 200px, rgb(0 0 0 / .15) 400px);
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
+  /* Side by side: the content column is centred, so measure from the centre. The text
+     column ends 30–70px right of centre and the photo starts 95–160px right of it. */
+  @media (min-width: 768px) {
+    :global(.grain--hero svg) {
+      --fade: linear-gradient(to right, rgb(0 0 0 / .15) calc(50% + 40px), #000 calc(50% + 180px));
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-4) var(--s-5);
+    margin-top: var(--s-6);
+  }
+
+  .actions + p {
+    margin-top: var(--s-5);
+  }
+
+  .hero-photo {
+    order: -1;
+    width: 100%;
+    max-width: 200px;
+    margin-inline: auto;
+  }
+
+  .headshot {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    object-fit: cover;
+  }
+
+  .placeholder {
+    display: grid;
+    place-items: center;
+    background: var(--surface);
+  }
+
+  .placeholder span {
+    font-family: var(--display);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    letter-spacing: -0.02em;
+    color: var(--muted);
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      grid-template-columns: 3fr 2fr;
+      align-items: center;
+      gap: var(--s-8);
+    }
+
+    .hero-photo {
+      order: 0;
+      max-width: 380px;
+      margin-inline: auto 0;
+    }
+  }
+
+  /* Sections -------------------------------------------------------- */
+  .section {
+    padding-top: var(--section);
+  }
+
+  .section > h2 {
+    margin-bottom: var(--s-6);
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  /* Also ------------------------------------------------------------ */
+  .also {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .also li {
+    display: grid;
+    gap: var(--s-2) var(--s-6);
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .also p {
+    max-width: 62ch;
+  }
+
+  @media (min-width: 768px) {
+    .also li {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      align-items: baseline;
+    }
+  }
+
+  /* Writing --------------------------------------------------------- */
+  .featured {
+    max-width: var(--measure);
+  }
+
+  .featured h3 {
+    font-size: clamp(1.25rem, 2.4vw, 1.375rem);
+  }
+
+  .featured h3 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+
+  .featured h3 a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .featured .mono {
+    margin-top: var(--s-1);
+  }
+
+  .standfirst {
+    margin-top: var(--s-3);
+  }
+
+  .featured + p {
+    margin-top: var(--s-6);
+  }
+
+  /* About ----------------------------------------------------------- */
+  .about {
+    margin-top: var(--section);
+    padding-block: var(--section);
+    background: var(--surface);
+    border-block: 1px solid var(--rule);
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figure img {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  figcaption {
+    margin-top: var(--s-2);
+  }
+
+  .about-text {
+    max-width: var(--measure);
+    margin-top: var(--s-7);
+  }
+
+  .about-text h2 {
+    margin-bottom: var(--s-4);
+  }
+
+  .about-text p + p,
+  .about-text ul {
+    margin-top: var(--s-4);
+  }
+</style>

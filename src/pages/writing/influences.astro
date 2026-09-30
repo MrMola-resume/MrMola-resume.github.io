@@ -1,0 +1,89 @@
+---
+import Article from '../../layouts/Article.astro';
+
+// Each line says what I took from the work — never who I know. Bodies are Dawson's to write;
+// until then, dev builds show a visible TODO marker and production shows the name only.
+const showTodo = import.meta.env.DEV;
+---
+
+<Article
+  frontmatter={{
+    kind: 'writing',
+    draft: true,
+    title: 'Influences',
+    description:
+      'Influences: a short list of people whose work shaped how Dawson Ren thinks about models, decisions, and operations, and what he took from each of them.',
+  }}
+>
+  <p class="muted">
+    A short list of people whose work shaped how I think about this. Some I've worked with;
+    most I've only read.
+  </p>
+
+  <ul class="rows">
+    <li>
+      <h2>Laura Albert</h2>
+      <p class="muted">
+        <!-- TODO: one or two sentences, what you took from the work -->
+        {showTodo && <span class="todo">TODO</span>}
+      </p>
+    </li>
+    <li>
+      <h2>Ben Recht</h2>
+      <p class="muted">
+        <!-- TODO: one or two sentences, what you took from the work -->
+        {showTodo && <span class="todo">TODO</span>}
+      </p>
+    </li>
+    <li>
+      <h2>Mike Watson</h2>
+      <p class="muted">
+        <!-- TODO: one or two sentences, what you took from the work -->
+        {showTodo && <span class="todo">TODO</span>}
+      </p>
+    </li>
+  </ul>
+</Article>
+
+<style>
+  /* :global(.prose) lifts these over the article's list and heading spacing. */
+  :global(.prose) .rows {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-6);
+    border-top: 1px solid var(--rule);
+  }
+
+  .rows li {
+    display: grid;
+    gap: var(--s-2) var(--s-6);
+    margin: 0;
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (min-width: 720px) {
+    .rows li {
+      grid-template-columns: 200px 1fr;
+      align-items: baseline;
+    }
+  }
+
+  .rows h2 {
+    margin: 0;
+    font-size: var(--fs-h3);
+  }
+
+  .rows p {
+    margin: 0;
+  }
+
+  .todo {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .14em;
+    padding: 2px 6px;
+    border: 1px dashed var(--muted);
+    border-radius: var(--radius);
+  }
+</style>

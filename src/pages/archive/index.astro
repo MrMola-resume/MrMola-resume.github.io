@@ -1,0 +1,95 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatDate } from '../../format';
+
+const posts = [
+  {
+    href: '/archive/priming-your-brain/',
+    title: 'Priming Your Brain For Classes',
+    date: '2024-01-03',
+    summary: 'Documenting my process for taking a new class.',
+  },
+  {
+    href: '/archive/what-is-ie/',
+    title: 'How to Explain Industrial Engineering to Your Family and Friends',
+    date: '2023-10-10',
+    summary: 'I\'ve made the \"Imaginary Engineers\" joke more times than I can count now.',
+  },
+  {
+    href: '/archive/letter-to-bayes/',
+    title: 'A Letter to Thomas Bayes',
+    date: '2023-02-25',
+    summary: 'Conditional probability and the naive Bayes spam filter, explained in olde English to the man responsible for them.',
+  },
+];
+---
+
+<Base
+  title="Earlier writing"
+  description="Earlier writing by Dawson Ren from 2023 and 2024, written as a student: a letter to Thomas Bayes, explaining industrial engineering, and priming for classes."
+>
+  <div class="wrap page">
+    <h1>Earlier writing</h1>
+    <p class="intro muted">
+      These are from 2023 and 2024, written while I was a student.
+    </p>
+    <ul class="posts">
+      {posts.map((post) => (
+        <li>
+          <h2><a href={post.href}>{post.title}</a></h2>
+          <p class="mono"><time datetime={post.date}>{formatDate(post.date)}</time></p>
+          <p class="summary">{post.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  .intro {
+    margin-top: var(--s-4);
+    max-width: 60ch;
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-6);
+    max-width: var(--measure);
+  }
+
+  .posts li {
+    padding-block: var(--s-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  .posts li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 2.4vw, 1.375rem);
+  }
+
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+
+  h2 a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .posts .mono {
+    margin-top: var(--s-1);
+  }
+
+  .summary {
+    margin-top: var(--s-3);
+  }
+</style>

@@ -1,0 +1,375 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+// Transcribed from public/resume/Dawson-Ren-Resume.pdf (September 2026). Keep the two in sync.
+---
+
+<Base
+  title="Resume"
+  description="Resume of Dawson Ren: MS in Industrial Engineering at Northwestern, data science and AI at RGA and Caterpillar, research in explainable AI. PDF download."
+>
+  <div class="wrap page">
+    <header class="page-head">
+      <h1>Resume</h1>
+      <a class="btn" href={SITE.resumePdf}>Download PDF (updated September 2026)</a>
+    </header>
+
+    <article class="resume" aria-label="Resume of Dawson Ren">
+      <header class="resume-name">
+        <p class="name">Dawson Ren</p>
+        <ul class="dot-list small muted">
+          <li>Chicago, IL</li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li><a href={SITE.linkedin}>linkedin.com/in/dawson-ren</a></li>
+          <li><a href="/">dawsonren.github.io</a></li>
+        </ul>
+      </header>
+
+      <section>
+        <h2>Summary</h2>
+        <p>
+          Problem-solver who can scope ambiguous business challenges with non-technical
+          stakeholders, design statistical and machine learning algorithms, and ship scalable
+          production Python software.
+        </p>
+      </section>
+
+      <section>
+        <h2>Education</h2>
+        <div class="entry">
+          <div class="line">
+            <h3>Northwestern University, McCormick School of Engineering</h3>
+            <span class="aside">Evanston, IL</span>
+          </div>
+          <div class="line role">
+            <span>Master of Science, Industrial Engineering and Management Sciences</span>
+            <span class="aside">September 2026</span>
+          </div>
+          <div class="line role">
+            <span>Bachelor of Science with Honors, Industrial Engineering and Management Sciences (Cum Laude)</span>
+            <span class="aside">June 2024</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Professional experience</h2>
+
+        <div class="entry">
+          <div class="line">
+            <h3>Reinsurance Group of America</h3>
+            <span class="aside">June 2026 – August 2026</span>
+          </div>
+          <div class="line role">
+            <span>Data Science and AI Intern, Model Risk Management — Enterprise Risk Analytics</span>
+            <span class="aside">Chesterfield, MO</span>
+          </div>
+          <ul>
+            <li>
+              Sole engineer for a predictive/AI model discrimination testing platform. Reviewed
+              legislation in 8 jurisdictions, iterated on business requirements, and deployed to
+              production on Databricks in 10 weeks, owning every phase of the software development
+              life cycle and saving a leadership-estimated ~2,500 analyst hours annually.
+            </li>
+            <li>
+              Built the platform in Python (Litestar, Pydantic, ~20 REST endpoints) with a React
+              frontend, applying software development standards (CI/CD, typing/linting, unit tests)
+              to deliver maintainable software (~10k LOC).
+            </li>
+            <li>
+              Implemented 12 statistical algorithms to test predictive/AI models for
+              discrimination, leveraging PySpark to run large-scale analytics over 100M+ row
+              datasets in minutes.
+            </li>
+            <li>
+              Advised non-technical leadership and consultants from KPMG on the firm's global bias
+              testing guidelines, identifying a key gap for continuous model outputs and suggesting
+              the replacement methodology adopted into corporate policy.
+            </li>
+            <li>
+              Drove adoption across a 70-person global data science organization for compliance:
+              ran 20+ discovery interviews across seven business units, engineered authorization
+              scheme to comply with data privacy requirements which unblocked EU adoption, and
+              delivered an hour-long training to model owners, actuaries, and three regional VPs of
+              AI.
+            </li>
+          </ul>
+          <p class="case-study small"><a class="arrow-link" href="/projects/rga-fairness-platform/">Read the case study</a></p>
+        </div>
+
+        <div class="entry">
+          <div class="line">
+            <h3>Caterpillar Inc.</h3>
+            <span class="aside">June 2023 – August 2023</span>
+          </div>
+          <div class="line role">
+            <span>AI and Advanced Diagnostics Intern</span>
+            <span class="aside">Chicago, IL</span>
+          </div>
+          <ul>
+            <li>
+              Developed and validated a multiclass XGBoost classifier in Python on 3M+ oil samples
+              using stratified cross-validation, improving absolute F1 score by 15 points over the
+              existing rules-based system and increasing diagnostic efficiency at 70+ fluid
+              analysis labs worldwide.
+            </li>
+            <li>
+              Prototyped a generative AI application to summarize vehicle inspections using
+              open-source LLMs (LLaMA) on AWS EC2 and presented the solution to Caterpillar's
+              Analytics and AI Center of Excellence.
+            </li>
+          </ul>
+          <div class="line role">
+            <span>Applications and Backend Intern</span>
+            <span class="aside">June 2022 – February 2023</span>
+          </div>
+          <ul>
+            <li>
+              Built user interface components for Caterpillar's flagship fleet management
+              application and optimized PostgreSQL queries for an enterprise database
+              restructuring project.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Research and teaching experience</h2>
+
+        <div class="entry">
+          <div class="line">
+            <h3>Northwestern University — Graduate Research Assistant</h3>
+            <span class="aside">August 2024 – June 2026</span>
+          </div>
+          <div class="line role">
+            <span>Predictive Science and Engineering Design (PS&amp;ED) Program</span>
+            <span class="aside">Evanston, IL</span>
+          </div>
+          <ul>
+            <li>
+              Designed a novel explainable AI (XAI) algorithm to interpret black-box machine
+              learning predictions, reducing variability in local explanations by up to 5x.
+            </li>
+            <li>
+              Engineered high-performance computing GPU simulations of silicon grain boundaries to
+              guide the manufacturing of next-generation thermoelectric materials for space power
+              generation.
+            </li>
+            <li>
+              Analyzed e-commerce algorithms using statistical machine learning to optimize free
+              shipping thresholds. Studied the ability of LLMs to generate ordering policies for
+              inventory management problems.
+            </li>
+            <li>
+              Created educational resources to teach queueing theory and inventory management to
+              Kellogg MBA students.
+            </li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="line">
+            <h3>Northwestern University — Graduate Teaching Assistant, Machine Learning II</h3>
+            <span class="aside">September 2025 – June 2026</span>
+          </div>
+          <ul>
+            <li>
+              Designed and taught 8 lab sessions for the MS in Machine Learning and Data Science
+              program covering regression, neural networks, tree ensembles, and model
+              interpretation.
+            </li>
+            <li>
+              Designed and taught a three-session, six-hour statistics bootcamp for the incoming
+              IEMS PhD cohort.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Technical skills</h2>
+        <dl class="skills">
+          <div><dt>Programming Languages</dt><dd>Python (primary), TypeScript, SQL, Bash</dd></div>
+          <div><dt>Machine Learning and AI</dt><dd>scikit-learn, PyTorch, MLflow, LLM APIs, algorithm design</dd></div>
+          <div><dt>Data and Distributed Computing</dt><dd>PySpark, Databricks, pandas, Polars, NumPy, high-performance computing</dd></div>
+          <div><dt>Software Engineering</dt><dd>React, Litestar, FastAPI, Pydantic, REST APIs, OpenAPI, PostgreSQL, Agile</dd></div>
+          <div><dt>Cloud and DevOps</dt><dd>AWS (EC2, S3, Lambda), Docker, Git, Jenkins, Terraform, CI/CD</dd></div>
+        </dl>
+      </section>
+    </article>
+
+    <section class="embed" aria-labelledby="pdf-title">
+      <h2 id="pdf-title">PDF version</h2>
+      <object
+        data={SITE.resumePdf}
+        type="application/pdf"
+        width="100%"
+        height="900"
+        title="Dawson Ren resume (PDF)"
+        aria-label="Dawson Ren resume (PDF)"
+      >
+        <p>Your browser can't display PDFs inline — <a href={SITE.resumePdf}>download it instead</a>.</p>
+      </object>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  .page-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4) var(--s-5);
+    margin-bottom: var(--s-6);
+  }
+
+  .resume {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: clamp(var(--s-5), 5vw, var(--s-8));
+  }
+
+  .resume-name {
+    padding-bottom: var(--s-5);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .name {
+    font-family: var(--display);
+    font-size: var(--fs-h2);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin-bottom: var(--s-2);
+  }
+
+  section {
+    margin-top: var(--s-6);
+  }
+
+  .resume h2 {
+    font-family: var(--mono);
+    font-size: .75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--accent);
+    padding-bottom: var(--s-2);
+    margin-bottom: var(--s-4);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .entry + .entry {
+    margin-top: var(--s-5);
+  }
+
+  .line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0 var(--s-4);
+  }
+
+  .line h3 {
+    font-size: var(--fs-h3);
+  }
+
+  .role {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  ul + .role {
+    margin-top: var(--s-3);
+  }
+
+  /* Dates and places: the mono role, with tabular figures so stacked dates align. */
+  .aside {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-style: normal;
+    white-space: nowrap;
+  }
+
+  .entry ul {
+    margin-top: var(--s-2);
+    padding-left: 1.2em;
+  }
+
+  .entry li {
+    max-width: 80ch;
+  }
+
+  .entry li + li {
+    margin-top: var(--s-2);
+  }
+
+  .entry li::marker {
+    color: var(--muted);
+  }
+
+  .case-study {
+    margin-top: var(--s-3);
+  }
+
+  .skills {
+    margin: 0;
+  }
+
+  .skills div + div {
+    margin-top: var(--s-2);
+  }
+
+  .skills dt {
+    display: inline;
+    font-weight: 600;
+  }
+
+  .skills dt::after {
+    content: ': ';
+  }
+
+  .skills dd {
+    display: inline;
+    margin: 0;
+  }
+
+  .embed {
+    margin-top: var(--s-8);
+  }
+
+  .embed h2 {
+    margin-bottom: var(--s-4);
+  }
+
+  .embed object {
+    display: block;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .embed object p {
+    padding: var(--s-5);
+  }
+
+  /* Mobile browsers render inline PDFs blank; the HTML above is the real resume. */
+  @media (max-width: 899px) {
+    .embed {
+      display: none;
+    }
+  }
+</style>

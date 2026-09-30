@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page not found"
+  description="This page doesn't exist on dawsonren.github.io. It may have moved when the site was rebuilt in 2026; the homepage links to everything that's here."
+  noindex
+>
+  <div class="wrap page">
+    <h1>Page not found</h1>
+    <p>This page doesn't exist — it may have moved when the site was rebuilt.</p>
+    <p><a class="arrow-link" href="/">Go to the homepage</a></p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  p {
+    margin-top: var(--s-4);
+  }
+</style>

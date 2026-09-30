@@ -1,0 +1,108 @@
+---
+import Base from './Base.astro';
+import Prose from '../components/Prose.astro';
+import { formatDate } from '../format';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    kind: 'project' | 'writing' | 'archive';
+    /** Writing and archive posts. */
+    date?: string | Date;
+    /** Projects: the facts shown under the title, joined with `·`. */
+    meta?: string[];
+    org?: string;
+    period?: string;
+    role?: string;
+    stack?: string[];
+    /** Projects whose write-up isn't finished yet. */
+    draft?: boolean;
+  };
+}
+
+const { title, description, kind, date, meta = [], stack = [], draft = false } = Astro.props.frontmatter;
+
+const year = date ? new Date(date).getUTCFullYear() : undefined;
+const back = {
+  project: { href: '/#work', label: 'Selected work' },
+  writing: { href: '/writing/', label: 'All writing' },
+  archive: { href: '/archive/', label: 'Earlier writing' },
+}[kind];
+
+// Fail with a readable message instead of a crash further down.
+for (const [field, ok] of [['kind', back], ['title', title], ['description', description]] as const) {
+  if (!ok) {
+    throw new Error(
+      `${Astro.url.pathname}: front matter is missing \`${field}\`` +
+        (field === 'kind' ? ' (one of: project, writing, archive)' : ''),
+    );
+  }
+}
+---
+
+<Base title={title} description={description} type="article">
+  <article class="wrap article">
+    <div class="column">
+      <header class="article-head">
+        <h1>{title}</h1>
+        {kind === 'project' && meta.length > 0 ? (
+          <ul class="dot-list meta mono">
+            {meta.map((item) => <li>{item}</li>)}
+          </ul>
+        ) : (
+          date && <p class="meta mono"><time datetime={new Date(date).toISOString().slice(0, 10)}>{formatDate(date)}</time></p>
+        )}
+        {stack.length > 0 && (
+          <p class="stack mono">Stack · {stack.join(', ')}</p>
+        )}
+      </header>
+
+      {kind === 'archive' && (
+        <p class="callout">Archived, written during junior and senior year of undergrad.</p>
+      )}
+      {draft && (
+        <p class="callout">Under construction — this piece isn't finished yet.</p>
+      )}
+
+      <Prose>
+        <slot />
+      </Prose>
+
+      <p class="back small"><a href={back.href}>← {back.label}</a></p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article {
+    padding-top: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  /* Width set once here, at body size: `ch` in the smaller callout text would be narrower. */
+  .column {
+    max-width: var(--measure);
+  }
+
+  .article-head {
+    margin-bottom: var(--s-6);
+  }
+
+  .meta {
+    margin-top: var(--s-4);
+  }
+
+  .stack {
+    margin-top: var(--s-1);
+  }
+
+  .callout {
+    margin-bottom: var(--s-6);
+  }
+
+  .back {
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--rule);
+  }
+</style>

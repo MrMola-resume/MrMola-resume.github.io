@@ -1,0 +1,39 @@
+---
+import Head from '../components/Head.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GrainField from '../components/GrainField.astro';
+
+interface Props {
+  title?: string;
+  description: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** Every page gets the grain band above its h1, except one that renders the hero field itself. */
+  band?: boolean;
+}
+
+const { band = true, ...head } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head {...head} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      {band && <GrainField variant="band" />}
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

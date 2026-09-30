@@ -1,0 +1,65 @@
+---
+import { SITE } from '../site';
+
+const path = Astro.url.pathname;
+const links = [
+  { href: '/#work', label: 'Work', current: path.startsWith('/projects/') },
+  { href: '/writing/', label: 'Writing', current: path.startsWith('/writing/') || path.startsWith('/archive/') },
+  { href: '/resume/', label: 'Resume', current: path.startsWith('/resume/') },
+];
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="wordmark" href="/">{SITE.name}</a>
+    <nav aria-label="Main">
+      <ul class="dot-list">
+        {links.map(({ href, label, current }) => (
+          <li><a href={href} aria-current={current ? 'page' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-5);
+    padding-block: var(--s-5);
+  }
+
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  nav a {
+    color: var(--ink);
+    text-decoration-color: transparent;
+    font-weight: 500;
+  }
+
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  @media (max-width: 400px) {
+    nav {
+      font-size: var(--fs-small);
+    }
+  }
+</style>
